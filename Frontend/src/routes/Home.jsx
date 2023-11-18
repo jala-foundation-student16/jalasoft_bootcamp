@@ -1,9 +1,11 @@
-import { deleteUser, getUsers } from "../functions/reqres";
+import { addUser, deleteUser, getUser, getUsers, updateUser } from "../functions/reqres";
 import { useState } from "react";
 import { useEffect } from "react";
 import { CommonButton } from "../components/CommonButton/CommonButton";
 import { Pencil, Trash, Plus } from "@phosphor-icons/react";
 import { ModalDelete } from "../components/ModalDelete/ModalDelete";
+import { ModalEdit } from "../components/ModalEdit/ModalEdit";
+import { ModalCreate } from "../components/ModalCreate/ModalCreate";
 
 export const Home = () => {
   const [users, setUsers] = useState([]);
@@ -12,6 +14,13 @@ export const Home = () => {
     visible: false,
     id: 0,
   });
+
+  const [isVisibleEdit, setIsVisibleEdit] = useState({
+    visible: false,
+    id: 0,
+  });
+
+  const [isVisibleCreate, setIsVisibleCreate] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -31,11 +40,35 @@ export const Home = () => {
     }
   }
 
+  async function handleUpdateUser(data) {
+    const request = await updateUser(data);
+    if(request){
+      setIsVisibleEdit(false)
+    }
+  }
+
+   async function handleCreateUser(data) {
+     const request = await addUser(data);
+     if (request) {
+       setIsVisibleCreate(false);
+     }
+   }
+
+
   async function getNewData() {
     const data = await getUsers(page);
     setUsers([...data]);
     setPage(page + 1); //there is a better way to do it, but iḿ nervous
     console.log(users);
+  }
+
+  async function loadDataToModal(id) {
+    const data = await getUser(id);
+    setIsVisibleEdit({
+      visible: true,
+      id: id,
+      entity: data,
+    });
   }
 
   return (
@@ -46,7 +79,9 @@ export const Home = () => {
           id="btn_addEixo"
           colored={false}
           icon={<Plus size={24} />}
-          onClick={() => navigate("/usuario/new")}
+          onClick={() => setIsVisibleCreate({
+                        visible: true,
+                      })}
         />
       </div>
       <ul className="flex flex-wrap gap-5 ">
@@ -66,7 +101,9 @@ export const Home = () => {
                   <CommonButton
                     warn={true}
                     icon={<Pencil size={24} />}
-                    onClick={() => {}}
+                    onClick={() => {
+                      loadDataToModal(e.id);
+                    }}
                     content="Edit"
                   />
 
@@ -77,7 +114,7 @@ export const Home = () => {
                       setIsVisible({
                         visible: true,
                         id: e.id,
-                        name: e.first_name+" "+e.last_name,
+                        name: e.first_name + " " + e.last_name,
                       });
                     }}
                     content="Delete"
@@ -95,6 +132,20 @@ export const Home = () => {
         idEntity={isVisible.id}
         nameEntity={isVisible.name}
         onClickYes={() => handleRemove(isVisible.id)}
+      />
+
+      <ModalEdit
+        isVisible={isVisibleEdit.visible}
+        setIsVisible={setIsVisibleEdit}
+        idEntity={isVisibleEdit.id}
+        entity={isVisibleEdit.entity}
+        onClickYes={handleUpdateUser}
+      />
+
+      <ModalCreate
+        isVisible={isVisibleCreate}
+        setIsVisible={setIsVisibleCreate}
+        onClickYes={handleCreateUser}
       />
     </div>
   );

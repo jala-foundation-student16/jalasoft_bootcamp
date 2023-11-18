@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { CommonButton } from "../CommonButton/CommonButton";
 import { CommonInput } from "../CommonInput/CommonInput";
 import { authUser } from "../../functions/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../provider/AuthenticationProvider";
 import { useContext, useEffect } from "react";
 
@@ -13,14 +13,14 @@ export const LoginForm = () => {
     formState: { errors },
   } = useForm();
 
-  const { isAuthenticated, setUserData, setIsAuthenticated } = useContext(
+  const { isAuthenticated, setIsAuthenticated } = useContext(
     AuthenticationContext
   );
 
   const navigate = useNavigate();
 
   async function authenticateUser(data) {
-    const response = await authUser(data, setIsAuthenticated, setUserData);
+    const response = await authUser(data, setIsAuthenticated);
     if (response) {
       navigate("/home");
     }

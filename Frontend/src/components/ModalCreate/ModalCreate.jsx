@@ -1,10 +1,7 @@
-import { useEffect } from "react";
 import { CommonInput } from "../CommonInput/CommonInput";
 import { useForm } from "react-hook-form";
 
-export const ModalEdit = ({
-  idEntity,
-  entity,
+export const ModalCreate = ({
   onClickYes,
   isVisible,
   setIsVisible,
@@ -20,23 +17,16 @@ export const ModalEdit = ({
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    setValue("name", entity.first_name);
-    setValue("last_name", entity.last_name);
-    setValue("email", entity.email);
-  }, [entity]);
 
   return (
     <div
       className="fixed flex inset-0 bg-black bg-opacity-20 backdrop-blur-sm h-full w-full justify-center items-center"
-      id={`modal-${idEntity}`}
+      id={`modal-create`}
     >
       <div className="relative flex flex-col bg-slate-50 p-5 rounded-md m-4 shadow-lg">
-        <h1 className="text-lg text-center">Editing {entity.first_name}</h1>
+        <h1 className="text-lg text-center">Adding user</h1>
 
         <div className="flex mt-5 gap-5">
           <form
