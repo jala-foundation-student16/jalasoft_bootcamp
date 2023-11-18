@@ -12,7 +12,6 @@ import { Pencil, Trash, Plus } from "@phosphor-icons/react";
 import { ModalDelete } from "../components/ModalDelete/ModalDelete";
 import { ModalEdit } from "../components/ModalEdit/ModalEdit";
 import { ModalCreate } from "../components/ModalCreate/ModalCreate";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 export const Home = () => {
   const [users, setUsers] = useState([]);
