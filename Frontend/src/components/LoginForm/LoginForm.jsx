@@ -22,13 +22,13 @@ export const LoginForm = () => {
   async function authenticateUser(data) {
     const response = await authUser(data, setIsAuthenticated);
     if (response) {
-      navigate("/home");
+      navigate("/list");
     }
   }
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/home");
+      navigate("/list");
     }
   }, [isAuthenticated]);
 

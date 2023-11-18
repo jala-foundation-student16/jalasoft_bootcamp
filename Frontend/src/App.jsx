@@ -17,7 +17,7 @@ function App() {
             <Route path="" element={<Header />}>
               <Route path="/login" element={<Login />} />
               <Route
-                path="/home"
+                path="/list"
                 element={
                   
                   <Container>

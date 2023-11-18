@@ -18,7 +18,7 @@ export const authUser = async (data, setIsAuthenticated) => {
 
     setToken(response.data.token);
     setUserMail(data.email);
-    setIsAuthenticated(false);
+    setIsAuthenticated(true);
 
     return true;
   } catch (e) {

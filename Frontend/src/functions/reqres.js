@@ -5,7 +5,7 @@ const baseURI = "/users";
 // Lista todos os eixos
 export const getUsers = async (page) => {
   try {
-    const request = await api.get(baseURI + "?page" + page);
+    const request = await api.get(baseURI + "?page=" + page);
 
     if (request.data.length === 0) {
       showToast({ status: 600 });

@@ -34,15 +34,18 @@ export const Header = () => {
             theme: "light",
           });
           navigate("/login");
+          setIsAuthenticated(false);
           setIsLoading(false);
           return false;
         }
         navigate("/login");
+        setIsAuthenticated(false);
         setIsLoading(false);
         return false;
       }
 
       // User is authenticated
+      setIsAuthenticated(true)
       setIsLoading(false);
       return true;
     } catch {
