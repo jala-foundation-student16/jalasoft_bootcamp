@@ -25,7 +25,6 @@ export const getToken = () => {
 
 export const getEmail = () => {
   try {
-    console.log(localStorage.getItem("email"));
     return localStorage.getItem("email");
   } catch {
     return false;

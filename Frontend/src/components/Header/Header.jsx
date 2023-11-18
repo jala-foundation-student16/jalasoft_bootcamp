@@ -19,7 +19,6 @@ export const Header = () => {
 
   async function getData() {
     try {
-      console.log(getToken());
       // User is not authenticated
       if (getToken() === null) {
         // User is not authenticated and trying to access a protected route

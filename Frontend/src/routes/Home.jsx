@@ -39,25 +39,14 @@ export const Home = () => {
       setPage(page + 1); //there is a better way to do it, but iḿ nervous
       setIsLoading(false);
     }
-
     getData();
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading]);
+  function useIsVisible(ref) {
+    const [isIntersecting, setIntersecting] = useState(false);
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isLoading
-    ) {
-      return;
-    }
-    getNewData();
-  };
+    return isIntersecting;
+  }
 
   async function handleRemove(id) {
     const newListUsers = users.filter((item) => item.id !== id);
@@ -86,7 +75,7 @@ export const Home = () => {
       setIsLoading(true);
       console.log("get new data");
       const data = await getUsers(page);
-      setUsers([...users,...data.data]);
+      setUsers([...users, ...data.data]);
       setPage(page + 1); //there is a better way to do it, but iḿ nervous
       setIsLoading(false);
     }
@@ -158,6 +147,7 @@ export const Home = () => {
         })}
       </ul>
 
+      {/* The ideal here is to use a dummy component with an observer, but i think there will be no time to make it, but the solution for my infinity scroll would be it, because the way that page is designed. */}
       {page <= lastPage && (
         <CommonButton
           content="Load more data"
@@ -165,11 +155,9 @@ export const Home = () => {
         />
       )}
 
-      {
-        page > lastPage && (<p className="text-center">
-          There is no more data to load
-        </p>)
-      }
+      {page > lastPage && (
+        <p className="text-center">There is no more data to load</p>
+      )}
 
       <ModalDelete
         isVisible={isVisible.visible}
