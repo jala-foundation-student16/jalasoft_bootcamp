@@ -36,17 +36,11 @@ export const Home = () => {
       const data = await getUsers(1);
       setLastPage(data.total_pages);
       setUsers(data.data);
-      setPage(page + 1); //there is a better way to do it, but iḿ nervous
+      setPage(prevPage => prevPage + 1);
       setIsLoading(false);
     }
     getData();
   }, []);
-
-  function useIsVisible(ref) {
-    const [isIntersecting, setIntersecting] = useState(false);
-
-    return isIntersecting;
-  }
 
   async function handleRemove(id) {
     const newListUsers = users.filter((item) => item.id !== id);
@@ -76,7 +70,7 @@ export const Home = () => {
       console.log("get new data");
       const data = await getUsers(page);
       setUsers([...users, ...data.data]);
-      setPage(page + 1); //there is a better way to do it, but iḿ nervous
+      setPage(prevPage => prevPage + 1);
       setIsLoading(false);
     }
   }
