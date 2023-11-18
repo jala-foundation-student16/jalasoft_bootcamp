@@ -9,17 +9,17 @@ import { ButtonBottomNav } from "../ButtonBottomNav/ButtonBottomNav";
 import { getEmail, getToken } from "../../functions/localstorage";
 import { logoutUser } from "../../functions/auth";
 
-
 export const Header = () => {
-  const { isAuthenticated, setIsAuthenticated } =
-    useContext(AuthenticationContext);
+  const { isAuthenticated, setIsAuthenticated } = useContext(
+    AuthenticationContext
+  );
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
   async function getData() {
     try {
-      console.log(getToken())
+      console.log(getToken());
       // User is not authenticated
       if (getToken() === null) {
         // User is not authenticated and trying to access a protected route
@@ -47,7 +47,7 @@ export const Header = () => {
       }
 
       // User is authenticated
-      setIsAuthenticated(true)
+      setIsAuthenticated(true);
       setIsLoading(false);
       return true;
     } catch {
@@ -66,41 +66,45 @@ export const Header = () => {
       <header className="w-full">
         <nav className="flex bg-blue-700 text-white p-3 justify-between items-center">
           <div className="flex gap-5 items-center">
-            <p className="text-xl">{getEmail() !== "" ? getEmail() :"Jalasoft"}</p>
+            <p className="text-xl">
+              {getEmail() !== null ? getEmail() : "Jalasoft"}
+            </p>
           </div>
 
           <div className="flex items-center">
-            <ButtonBottomNav
-              icon={<SignOut size={24} />}
-              onClick={() => {
-                if (getToken() !== "") {
-                  logoutUser(setIsAuthenticated);
-                  navigate("/login");
-                  toast.success("See you later!", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                } else {
-                  toast.error("It was not possible to logout", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }
-              }}
-              className={``}
-            />
+            {getToken() !== null && (
+              <ButtonBottomNav
+                icon={<SignOut size={24} />}
+                onClick={() => {
+                  if (getToken() !== "") {
+                    logoutUser(setIsAuthenticated);
+                    navigate("/login");
+                    toast.success("See you later!", {
+                      position: "top-right",
+                      autoClose: 3000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+                  } else {
+                    toast.error("It was not possible to logout", {
+                      position: "top-right",
+                      autoClose: 3000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+                  }
+                }}
+                className={``}
+              />
+            )}
           </div>
         </nav>
       </header>
