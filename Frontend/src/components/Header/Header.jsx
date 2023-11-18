@@ -19,10 +19,11 @@ export const Header = () => {
 
   async function getData() {
     try {
+      console.log(getToken())
       // User is not authenticated
-      if (getToken() === "") {
+      if (getToken() === null) {
         // User is not authenticated and trying to access a protected route
-        if (isAuthenticated === false && location.pathname !== "/login") {
+        if (location.pathname !== "/login") {
           toast.error("You need to be authenticated", {
             position: "top-right",
             autoClose: 5000,
@@ -38,6 +39,7 @@ export const Header = () => {
           setIsLoading(false);
           return false;
         }
+
         navigate("/login");
         setIsAuthenticated(false);
         setIsLoading(false);
